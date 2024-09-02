@@ -23,6 +23,8 @@ client.once(Events.ClientReady, (readyClient) => {
 
 client.on(Events.MessageCreate, async (msg) => {
     for (const hook of hooks) {
+        if (hook.guildId && msg.guildId !== hook.guildId) continue;
+        if (hook.channelId && msg.channelId !== hook.channelId) continue;
         const match = msg.content.match(hook.pattern);
         if (match) {
             msg.channel.sendTyping();
